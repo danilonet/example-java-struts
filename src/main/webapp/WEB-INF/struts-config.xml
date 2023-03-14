@@ -7,15 +7,44 @@
 <struts-config>
 	<!-- ========== Form Bean Definitions ================================== -->
 	<form-beans>
-		<form-bean name="helloForm"
-			type="it.danilo.form.HelloWorldForm" />
+		<form-bean name="helloForm" type="it.danilo.form.HelloWorldForm" />
+		<form-bean name="loginForm" type="it.danilo.form.LoginForm" />
 	</form-beans>
 	<!-- ========== Action Mapping Definitions ============================= -->
 	<action-mappings>
-		<action name="helloForm" path="/HelloWorldy"
-			type="it.danilo.action.HelloWorldAction" scope="request">
+	<!--
+	ogni action mappa un url, associa un bean ad una o più pagine jsp (chiamata con forward)
+	
+	  NAME:
+	  	nome del bean associato alla pagina jsp
+	  SCOPE:
+		page - Beans that are visible within a single JSP page, for the lifetime of the current request. (Local variables of the service method)
+		request - Beans that are visible within a single JSP page, as well as to any page or servlet that is included in this page, or forwarded to by this page. (Request attributes)
+		session - Beans that are visible to all JSP pages and servlets that participate in a particular user session, across one or more requests. (Session attributes)
+		application - Beans that are visible to all JSP pages and servlets that are part of a web application. (Servlet context attributes)
+	 -->
+		<action 
+			name="helloForm" 
+			path="/HelloWorldy"
+			type="it.danilo.action.HelloWorldAction" 
+			scope="request">
 			<forward name="hello" path="/hellopg.jsp" />
 			<forward name="ko" path="/ko.jsp" />
 		</action>
+		
+		
+		<action 
+			input="/login.jsp" 
+			name="loginForm" 
+			path="/Login"
+			scope="session" 
+			type="it.danilo.action.LoginAction">
+			<forward name="ok" path="/ok.jsp" />
+			<forward name="ko" path="/ko.jsp" />
+		</action>
 	</action-mappings>
+	
+	<!--  questo serve per far funzionare html:errors nella loginpage.jps, carica gli 
+	errori dal file ApplicationResource.properties -->
+	<message-resources parameter="it/danilo/resource/ApplicationResource" />
 </struts-config>
